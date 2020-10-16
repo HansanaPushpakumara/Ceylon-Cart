@@ -76,7 +76,7 @@
                                                              <strong>Total Orders</strong>   
                                                         </td>
                                                         <td>
-                                                                800
+                                                                {{count($tOrderData)}}
                                                         </td>
                                                 </tr>
                                                 <tr>
@@ -84,7 +84,7 @@
                                                              <strong>New SignUps</strong>   
                                                         </td>
                                                         <td>
-                                                                80
+                                                                {{count($loginData)}}
                                                         </td>
                                                 </tr>
                                         </table>

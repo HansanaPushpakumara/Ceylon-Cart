@@ -7,7 +7,7 @@
                       
                     <div class="advert">
                         <div class="well">
-                            @if (count($adData)>0)  
+                                @isset($adData)  
                             <div class="ad">
                                 <h3>{{$adData->organization_name}}</h3>
                                 <p>
@@ -68,9 +68,7 @@
                                 </div>
                                     
                                     @endforeach
-                                @else
-                                        <p>No Advertisements found</p>
-                                @endif
+                                    @endisset
                               
                         </div>
                     </div>

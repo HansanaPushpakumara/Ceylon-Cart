@@ -31,6 +31,17 @@ class registrationController extends Controller
     //===========customer==============
     protected function registerCustomer(Request $request){
         //return "hello";
+
+        if(0==0){
+            $this->validate($request, [
+                'name'  => 'required',
+                'email' => 'required|email|regex:/^[a-z]/',
+                'nic' => 'required|regex:/^\d{9}V$/',
+                'nic' => 'max:12',
+                'password' => 'required|min:6',
+                'phone' => 'numeric|'
+            ]);
+
         $users = new User();
         $users->name = $request->name;
         $users->password =  bcrypt($request->password);
@@ -52,7 +63,7 @@ class registrationController extends Controller
         $customers->phoneNo = $request->phoneNo;
         $customers->email = $request->email;
         $customers->regNo = $request->regNo;
-        $customers->accountNo = $request->accountNo;
+       // $customers->accountNo = $request->accountNo;
         $customers->address = $request->address;
         $customers->homeTown = $request->homeTown;
 
@@ -66,11 +77,23 @@ class registrationController extends Controller
 
         return redirect('/login')->with('success','You have succesfully registered. Please Login Now'); 
 
+        }
+    else{
+      return redirect('/registration/customer')->withInput();
+  }
     }
 
     //===========supplier==============
     protected function registerSupplier(Request $request){
-        //return "hello";
+         if(0==0){
+        $this->validate($request, [
+            'name'  => 'required',
+            'email' => 'required|email|regex:/^[a-z]/',
+            'nic' => 'required|regex:/^\d{9}V$/',
+            'nic' => 'max:12',
+            'password' => 'required|min:6',
+            'phone' => 'numeric|'
+        ]);
         $users = new User();
         $users->name = $request->name;
         $users->password =  bcrypt($request->password);
@@ -109,6 +132,10 @@ class registrationController extends Controller
         $suppliers->save();
         //return redirect()->with('success','You have succesfully registered. Please Login Now'); 
         return redirect('/login')->with('success','You have succesfully registered. Please Login Now'); 
+      }
+      else{
+        return redirect('/registration/supplier')->withInput();
+    }
     }
 
     //----------------------------------------------------

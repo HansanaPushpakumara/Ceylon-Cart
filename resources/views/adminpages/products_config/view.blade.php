@@ -7,7 +7,7 @@
                       
                     <div class="advert">
                         <div class="well">
-                            @if (count($productData)>0)  
+                                @isset($productData)  
                               <div class="ad">
                                   <h3>{{$productData->productimagename}}</h3>
                                   <p>
@@ -72,9 +72,7 @@
                              
                              @endforeach
                              {{$productAll->links()}}
-                         @else
-                                 <p>No Products found</p>
-                         @endif
+                             @endisset
                          
                     </div>
                     </div>

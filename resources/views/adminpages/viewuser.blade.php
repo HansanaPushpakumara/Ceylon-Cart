@@ -53,10 +53,6 @@
                                 <td>{{$customerData->regNo}}</td>
                               </tr>
                               <tr>
-                                <td>Account Number</td>
-                                <td>{{$customerData->accountNo}}</td>
-                              </tr>
-                              <tr>
                                 <td>Address</td>
                                 <td>{{$customerData->address}}</td>
                               </tr>

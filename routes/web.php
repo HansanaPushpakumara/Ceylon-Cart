@@ -22,6 +22,17 @@ Route::get('/home', 'HomeController@index')->name('home');
 //public pages controller-----------------------
 
 Route::get('/', 'publicController@index');
+Route::get('/supplier/view/{id}', 'publicController@viewSupplier');
+Route::get('/customer/view/{id}','publicController@viewCustomer'); // view cutomer
+
+Route::get('/community/view', 'publicController@community');
+//-help
+Route::get('/help/view', 'publicController@helpView'); // help view
+Route::get('/help/FAQ', 'publicController@faq'); // help view
+Route::post('/help/faq/question', 'publicController@faqAdd');
+
+
+
 
 //login reg-----------------------------
 
@@ -40,14 +51,20 @@ Route::post('login', [ 'as' => 'login', 'uses' => 'loginController@viewlogin']);
 
 //search------------------------
 
-Route::get('/search', 'searchController@index');
+Route::get('/search/index', 'searchController@index');
 Route::get('/live_search/action', 'searchController@action')->name('live_search.action');
+
+Route::get('/live_search/customerlist', 'searchController@customerlist')->name('live_search.customerlist');
 
 //supplire pages-------------
 Route::get('/supplier/index', 'supplierController@index');
 Route::get('/supplier/editprofile', 'supplierController@editprofile');
 Route::post('/supplier/profile/update', 'supplierController@updateprofile');//update profile
 
+Route::get('/supplier/profile/addproducts', 'supplierController@addProductsView');//view
+Route::post('/supplier/addProduct', 'supplierController@addProduct');//addproducts function
+
+Route::get("/find/customer/{homeTown}", 'searchController@customerlistView');//addproducts function
 
 //**Admin routs********************************************************** */
 
@@ -84,3 +101,111 @@ Route::post('/admin/sendmail', 'adminController@sendmail');
 
 //Admin - customer list
 Route::get('/admin/customerlist', 'adminController@viewcustomerslist');
+
+//Admin - help
+Route::get('/admin/faq/view', 'adminController@viewHelp'); // help view
+Route::post('/admin/faq/view/post/{id}', 'adminController@saveHelp'); // help view
+Route::get('/admin/faq/remove/{id}', 'adminController@removeHelp'); 
+Route::post('/admin/faq/view/post/', 'adminController@newHelp'); 
+
+
+//-------------------------------hansana--------------------
+//------------------------------customer ordeers------------------------------//
+
+Route::get('/customer/orders/{id}', 'publicController@viewCustomerOrders');
+Route::post('/customer/orders/reserve', 'reserveController@reserveorder');
+Route::get('/supplier/myorders/{id}', 'supplierController@viewmyorders');
+Route::get('/supplier/myorders', 'supplierController@viewOrderslist');
+
+Route::post('/supplier/cancelOrder', 'reserveController@cancelOrder');
+Route::post('/supplier/editOrder', 'reserveController@editOrder');
+
+Route::post('/customer/bankslip', 'orderController@makePayment');
+
+
+
+//===================================suba========================================================//
+
+Route::get('/show', 'orderController@showorder');
+
+Route::post('/upadtedata','orderController@upadteorder');
+
+Route::get('/createOrder', 'orderController@getproductname');
+Route::post('/h','orderController@createorder');
+
+Route::get('/delete/{id}','orderController@removeorder');
+
+Route::get('/se','SearchController@index');
+Route::get('/search','SearchController@search');
+
+Route::get('/reservedsppliers/{id}','orderController@reservedsuppliers');
+Route::post('/viewreservedonesupplier/{supplier_Id}','orderController@viewreservedonesupplier');
+Route::get('/showsuppliertocustomerdashboard','orderController@showordertocustomer');
+
+//rating
+
+Route::get('posts', 'HomeController@posts')->name('posts');
+
+Route::post('post/post', 'HomeController@postPost'); 
+
+Route::get('posts/{id}', 'HomeController@show');
+
+//-----------------customer pages------------------
+
+Route::get('/customer/index','customerController@index');// customer after login
+
+
+//=========================================//
+
+
+//----------------------------------------pdf test-----------
+
+
+
+ Route::get('/genaratepdf','NotesController@generatePDF'); //test
+
+ Route::get('/supplier/generatebill','supplierController@downloadPdf');
+ //Route::get('/supplier/viewbill/{id}','supplierController@viewBill');
+ Route::get('pdfview',array('as'=>'pdfview','uses'=>'supplierController@viewBill'));
+
+
+ //------------------------------------piumi new----------------------------
+
+ //header links
+Route::get('/aboutus', 'publicController@aboutus');
+Route::get('/contactus', 'publicController@contactus');
+Route::get('/comment', 'publicController@comment');
+
+Route::get('/addcomment', 'publicController@addCommentsView');//view
+Route::post('/addcomment', 'publicController@addComment');//view
+Route::post('/showcomment/{id}', 'publicController@showComment');//view
+
+Route::get('/customer/editprofile', 'customerController@editprofile');
+Route::post('/customer/profile/update', 'customerController@updateprofile');//update profile
+
+//----------------supplier products
+
+Route::post('/showProducts/{id}', 'supplierController@showproduct');//view
+
+
+Route::get('/supplier/view', 'supplierController@updateView');
+
+Route::get('/supplier/editProduct/{id}', 'supplierController@editProduct');
+Route::post('/supplier/product/update/{id}', 'supplierController@updateProduct');
+
+Route::get('/deleteProduct/{id}', 'supplierController@remove');//delete
+
+
+//===============udar-------------------
+
+//------------------comments-----------------
+
+Route::post('/comments', 'commentsController@store');
+
+//-------------------------------suscribe------------------
+
+Route::get('/customer/subscribe/{id}', 'subscribeController@store');
+Route::get('/supplier/subscriptions', 'supplierController@subscriptionslist');
+Route::get('/supplier/subscriptions/remove/{id}', 'subscribeController@removeSubscribe');
+
+Route::get('/supplier/offline', 'supplierController@viewoffpay');

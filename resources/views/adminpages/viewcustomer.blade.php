@@ -1,20 +1,18 @@
 @extends('pageLayouts.adminlayout')
 
 @section('content')
+@isset($customerData)
        <div class="row">
            <div class="col-sm-8">
                   <div class="well">
                          
-                         @if (count($customerData)>0)
+                        
                          <div class="table-responsive">
                             <table class="table">
                             @foreach ($customerData as $customerData)
                             <h4>{{$customerData->name}} <small>- ( Customer )</small></h4>
                             <small>{{$customerData->address}}</small><br>
-                              <tr>
-                                <td>User ID</td>
-                                <td>{{$customerData->customerId}}</td>
-                              </tr>
+                              
                               <tr>
                                 <td>Name</td>
                                 <td>{{$customerData->name}}</td>
@@ -39,10 +37,7 @@
                                 <td>Registered Number</td>
                                 <td>{{$customerData->regNo}}</td>
                               </tr>
-                              <tr>
-                                <td>Account Number</td>
-                                <td>{{$customerData->accountNo}}</td>
-                              </tr>
+                             
                               <tr>
                                 <td>Address</td>
                                 <td>{{$customerData->address}}</td>
@@ -52,24 +47,22 @@
                                 <td>{{$customerData->homeTown}}</td>
                               </tr> 
                                 
-                            @endforeach
+                           
                             </table>
                          </div>
                          <a href="/admin/mailbox/{{$customerData->email}}" class="btn btn-primary">Send Email</a>
-                         <a href="/admin/removeuser/customer/{{$customerData->customerId}}" class="btn btn-danger">Remove User</a>
-                          @else
-                            <p>No user found</p>
-                          @endif
+                         <a href="/admin/removeuser/customer/{{$customerData->customerId}}" class="btn btn-danger" onclick="return confirm('Remove Customer! Are You Sure?');">Remove User</a>
+                         
                   </div>
            </div>
            <div class="col-sm-4">
              <div class="">
-                @if (count($customerData)>0)
+                
                 <img class="img-responsive" style="max-height: 30vh;" src="data:image;base64,{{$customerData->image}}" alt="image"> 
-                @endif
+                
               </div>
-
+              @endforeach
            </div>
        </div>
-        
+       @endisset   
 @endsection

@@ -9,6 +9,7 @@ use Mail;
 use App\productimage;
 use App\admin;
 use Auth;
+use App\help;
 
 use Illuminate\Support\Facades\Validator;
 
@@ -18,17 +19,24 @@ class adminController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-    }
+    } 
 
     //----------------------- Dashboard page view-----------------------------//
     public function dashboard(){
         $title = 'Admin Dashboard';
-        $customerData = DB::select('select * from customers');
-        $supplierData = DB::select('select * from suppliers');
-        $orderData = DB::select('select * from orders');
+        $customerData = DB::select('select id from customers');
+        $supplierData = DB::select('select id from suppliers');
+        $orderData = DB::select('select id from orders');
+
+        $date=date("Y-m-d");
+//return $date;
+        $tOrderData= DB::select("select id from orders where created_at like '%$date%'");
+        $loginData=DB::select("select id from users where created_at like '%$date%'");
+
+        //return $tOrderData;
         //$loginData = DB::select('select* from login order by userID desc limit 5');
         $clogin = DB::select('SELECT * FROM customers LEFT JOIN users ON customers.customerId =users.id ORDER BY users.id asc limit 5');
-        ;
+        
         $slogin = DB::select('SELECT * FROM suppliers LEFT JOIN users ON suppliers.supplierId =users.id ORDER BY users.id asc limit 5');
         //return $slogin;
         //return $query;
@@ -38,6 +46,8 @@ class adminController extends Controller
         ->with('orderData',$orderData)
         ->with('clogin',$clogin)
         ->with('slogin',$slogin)
+        ->with('tOrderData',$tOrderData)
+        ->with('loginData',$loginData)
         ;
     }
 
@@ -45,6 +55,10 @@ class adminController extends Controller
     public function viewcustomer($id){
         $title = 'Admin - View User';
         $customerData=DB::select("select * from customers where customerId = '$id' limit 1"); 
+        $count=DB::select('SELECT COUNT(*)
+        FROM customers');
+       // return $count;
+        
         //return $customerData;
         return view('adminpages.viewcustomer')->with('title',$title)->with('customerData',$customerData);
     }
@@ -226,5 +240,45 @@ class adminController extends Controller
         $customerData=DB::select("select * from customers"); 
         //return $customerData;
         return view('adminpages.customerlist')->with('title',$title)->with('customerData',$customerData);
+    }
+
+    //==================================help=====================================//
+
+    //---------------------help view----------------------
+    public function viewHelp(){
+        $title="help MAnagement";
+        $helpData=DB::select("select* from helps where approved='Y' and category = 'FAQ'");
+
+        $helpDataN=DB::select("select* from helps where approved='N' and category = 'FAQ'");
+
+        $feedbackData=DB::select("select* from helps where category = 'COM'");
+
+        return view('adminpages.help.helpindex')->with('title',$title)
+        ->with('helpData',$helpData)
+        ->with('helpDataN',$helpDataN)
+        ->with('feedbackData',$feedbackData);
+
+    }
+
+    public function saveHelp(Request $request,$id){
+        $helpData=help::find($id);
+        $helpData->question=$request->question;
+        $helpData->answer=$request->answer;
+        $helpData->approved=$request->approved;
+        $helpData->save();
+        return redirect()->back()->with('success' ,'Posted');
+    }
+    public function removeHelp($id){
+        $helpData=help::find($id);
+        $helpData->delete();
+        return redirect()->back();
+    }
+    protected function newHelp(Request $request){
+        $helpData = new help;
+        $helpData->question=$request->question;
+        $helpData->answer=$request->answer;
+        $helpData->approved=$request->approved;
+        $helpData->save();
+        return redirect()->back()->with('success' ,'Posted');
     }
 }

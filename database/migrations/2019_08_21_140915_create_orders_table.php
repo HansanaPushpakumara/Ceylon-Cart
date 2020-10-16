@@ -22,6 +22,7 @@ class CreateOrdersTable extends Migration
             $table->double('productinitial_quantity');
             $table->integer('quantity');
             $table->double('price');
+            $table->date('expired_date');
 
             $table->timestamps();
         });

@@ -23,7 +23,7 @@ class CreateCustomersTable extends Migration
             $table->string('phoneNo');
             $table->string('email');
             $table->string('regNo')->nullable();
-            $table->string('accountNo');
+            //$table->string('accountNo');
             $table->string('address');
             $table->string('homeTown');
             $table->binary('image')->nullable();
