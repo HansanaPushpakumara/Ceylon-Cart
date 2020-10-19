@@ -288,7 +288,7 @@ public function sendSMS(){
    $customerData=customer::find($customerId);
    //return $customerData->companyname;
 
-   $basic  = new \Nexmo\Client\Credentials\Basic('be303e99', 'IX0dfz4DZF0QXmUp');
+   $basic  = new \Nexmo\Client\Credentials\Basic('nexmo key', 'nexmo id');
    $client = new \Nexmo\Client($basic);
 
    foreach($result as $r){
